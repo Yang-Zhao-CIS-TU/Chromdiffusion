@@ -1,0 +1,22 @@
+{
+  "num_samples": 1216,
+  "num_steps": 50,
+  "loop_percentile": 90,
+  "apply_masking": true,
+  "loop_fraction": 10.0,
+  "residual_strength": 0.4650869369506836,
+  "normalized_range": [
+    0.0,
+    4.393202781677246
+  ],
+  "raw_range": [
+    7.0,
+    5925.3193359375
+  ],
+  "shape": [
+    1216,
+    1,
+    40,
+    40
+  ]
+}

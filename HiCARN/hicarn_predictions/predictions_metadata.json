@@ -1,0 +1,26 @@
+{
+  "num_samples": 54047,
+  "shape": [
+    54047,
+    40,
+    40
+  ],
+  "normalized_range_pred": [
+    -1.682906985282898,
+    5.1510210037231445
+  ],
+  "normalized_range_gt": [
+    -1.3825361728668213,
+    5.0
+  ],
+  "residual_mean": -0.009539161808788776,
+  "residual_std": 0.2702787220478058,
+  "preprocessing_method": "robust_median_iqr",
+  "note": "Both predictions and ground truth are in normalized space (log1p + median/IQR)",
+  "preprocessing_stats": {
+    "X_median": 0.0,
+    "X_iqr": 0.6931471905599453,
+    "Y_median": 2.0794415416798357,
+    "Y_iqr": 1.5040774067762739
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "num_samples": 1216,
+  "shape": [
+    1216,
+    40,
+    40
+  ],
+  "normalized_range": [
+    -1.5741127729415894,
+    4.393202781677246
+  ],
+  "preprocessing_method": "robust_median_iqr",
+  "preprocessing_stats": {
+    "X_median": 0.0,
+    "X_iqr": 0.6931471905599453,
+    "Y_median": 2.0794415416798357,
+    "Y_iqr": 1.5040774067762739
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "evaluation_space": "raw_contact_counts",
+  "num_samples": 1216,
+  "pred_file_norm": "residual_diffusion/chr19/refined_norm.npy",
+  "pred_file_raw": "residual_diffusion/chr19/refined_raw.npy",
+  "gt_file": "/data/251021_HiC_Diffusion/NEW_mat_TK/GM12878/40x40/hr_test_chr19.npy",
+  "pred_range": [
+    0.0,
+    9271.9619140625
+  ],
+  "gt_range": [
+    0.0,
+    79340.0
+  ],
+  "metrics": {
+    "pas_psnr": {
+      "mean": 22.943402371195457,
+      "std": 8.28552772874965
+    },
+    "pas_snr": {
+      "mean": 78.24655885603426,
+      "std": 28.60020787227372
+    },
+    "pas_spc": {
+      "mean": 0.5888111393826465,
+      "std": 0.2724550575720239
+    },
+    "pas_pcc": {
+      "mean": 0.6381175540721803,
+      "std": 0.28557611889703527
+    },
+    "pas_gds": {
+      "mean": 0.8914000431349433,
+      "std": 0.040800324507131565
+    },
+    "pas_ssim": {
+      "mean": 0.49515133961961655,
+      "std": 0.21558805875615086
+    },
+    "pas_mse": {
+      "mean": 4463.7783561444985,
+      "std": 94814.81421008024
+    }
+  },
+  "tab_separated_values": "22.943402\t78.246559\t0.588811\t0.638118\t0.891400\t0.495151\t4463.778356"
+}

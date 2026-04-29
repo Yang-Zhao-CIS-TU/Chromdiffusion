@@ -1,0 +1,36 @@
+{
+  "checkpoint": "checkpoints_diffusion_stable/best_model_structure_preserved.pt",
+  "num_samples": 755,
+  "inference_steps": 50,
+  "use_ddim": true,
+  "residual_stats": {
+    "mean": 0.022407958284020424,
+    "std": 0.0591682605445385,
+    "min": -0.0972093790769577,
+    "max": 0.0972093790769577
+  },
+  "refined_norm_stats": {
+    "mean": 0.05936143919825554,
+    "std": 0.7464861869812012,
+    "min": -1.5395663976669312,
+    "max": 4.19236946105957
+  },
+  "usage_guide": {
+    "normalized_space": "predictions_norm.npy = refined predictions in normalized space",
+    "loop_calling": "hicarn_for_loop_calling.npy = use with HiCCUPS",
+    "tad_calling": "refined_for_tad_calling.npy = use with Arrowhead (same as predictions_norm.npy)",
+    "analysis": "diffusion_residuals.npy = for SCC analysis",
+    "raw_space": "refined_raw.npy = refined predictions in raw contact count space"
+  },
+  "refined_raw_stats": {
+    "mean": 1.365586519241333,
+    "std": 2.3976287841796875,
+    "min": 0.0,
+    "max": 18.408355712890625
+  },
+  "denormalization": {
+    "method": "max_normalization",
+    "gt_max": 4.390919208526611,
+    "formula": "x_raw = x_norm * gt_max"
+  }
+}

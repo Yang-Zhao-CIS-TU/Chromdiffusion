@@ -1,0 +1,20 @@
+{
+  "num_samples": 1302,
+  "hicarn_range": [
+    -1.5587822198867798,
+    4.11386775970459
+  ],
+  "final_range": [
+    -4.430717468261719,
+    5.0
+  ],
+  "residual_range": [
+    -3.0,
+    3.0
+  ],
+  "residual_mean": -0.00047163068666122854,
+  "residual_std": 0.9444721937179565,
+  "method": "DDIM",
+  "num_steps": 50,
+  "clipped": true
+}

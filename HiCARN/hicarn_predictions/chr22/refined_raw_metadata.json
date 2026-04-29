@@ -1,0 +1,15 @@
+{
+  "source_file": "hicarn_predictions/chr22/predictions_norm.npy",
+  "shape": [
+    764,
+    40,
+    40
+  ],
+  "range": [
+    0.0,
+    4384.416015625
+  ],
+  "data_space": "raw_contact_counts",
+  "denormalized_from": "normalized",
+  "preprocessor": "hicarn_predictions/hicarn_preprocessor.pt"
+}

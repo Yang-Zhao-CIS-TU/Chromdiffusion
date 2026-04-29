@@ -1,0 +1,47 @@
+{
+  "num_samples": 1216,
+  "data_space": "normalized",
+  "gt_normalization_stats": {
+    "log_mean": NaN,
+    "log_std": NaN
+  },
+  "pred_range": [
+    0.0,
+    4.393202781677246
+  ],
+  "gt_norm_range": [
+    NaN,
+    NaN
+  ],
+  "metrics": {
+    "pas_psnr": {
+      "mean": NaN,
+      "std": NaN
+    },
+    "pas_snr": {
+      "mean": NaN,
+      "std": NaN
+    },
+    "pas_spc": {
+      "mean": NaN,
+      "std": NaN
+    },
+    "pas_pcc": {
+      "mean": NaN,
+      "std": NaN
+    },
+    "pas_gds": {
+      "mean": NaN,
+      "std": NaN
+    },
+    "pas_ssim": {
+      "mean": NaN,
+      "std": NaN
+    },
+    "pas_mse": {
+      "mean": NaN,
+      "std": NaN
+    }
+  },
+  "tab_separated_values": "nan\tnan\tnan\tnan\tnan\tnan\tnan"
+}

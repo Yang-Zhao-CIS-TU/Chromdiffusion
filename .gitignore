@@ -1,0 +1,31 @@
+# checkpoints / models
+*.pt
+*.pth
+*.ckpt
+*.bin
+checkpoints*/
+**/checkpoints*/
+**/Pretrained_weights/
+
+# datasets
+data_new/
+raw_data/
+processed_data/
+
+*.npy
+*.npz
+*.h5
+*.hic
+*.cool
+*.mcool
+
+# logs
+*.log
+outputs/
+results/
+runs/
+
+# system
+__pycache__/
+*.pyc
+.DS_Store

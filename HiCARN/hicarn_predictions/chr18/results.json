@@ -1,0 +1,46 @@
+{
+  "evaluation_space": "raw_contact_counts",
+  "num_samples": 1650,
+  "pred_file_norm": "hicarn_predictions/chr18/predictions_norm.npy",
+  "pred_file_raw": "hicarn_predictions/chr18/refined_raw.npy",
+  "gt_file": "/data/251021_HiC_Diffusion/NEW_mat_TK/GM12878/40x40/hr_test_chr18.npy",
+  "pred_range": [
+    0.0,
+    4176.0654296875
+  ],
+  "gt_range": [
+    0.0,
+    25724.0
+  ],
+  "metrics": {
+    "pas_psnr": {
+      "mean": 24.42545524141784,
+      "std": 8.478828878633765
+    },
+    "pas_snr": {
+      "mean": 93.52854093888261,
+      "std": 31.491970004548506
+    },
+    "pas_spc": {
+      "mean": 0.641531877698567,
+      "std": 0.23053550036465745
+    },
+    "pas_pcc": {
+      "mean": 0.6951142753464765,
+      "std": 0.24183091804256085
+    },
+    "pas_gds": {
+      "mean": 0.9130614316062862,
+      "std": 0.03007713128721557
+    },
+    "pas_ssim": {
+      "mean": 0.5267518692757144,
+      "std": 0.1976748712537984
+    },
+    "pas_mse": {
+      "mean": 454.97746782570175,
+      "std": 9710.480291389804
+    }
+  },
+  "tab_separated_values": "24.425455\t93.528541\t0.641532\t0.695114\t0.913061\t0.526752\t454.977468"
+}

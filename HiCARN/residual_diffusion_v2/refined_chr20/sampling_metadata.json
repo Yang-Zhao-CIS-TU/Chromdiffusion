@@ -1,0 +1,40 @@
+{
+  "num_samples": 1302,
+  "input_shape": [
+    1302,
+    1,
+    40,
+    40
+  ],
+  "output_shape": [
+    1302,
+    1,
+    40,
+    40
+  ],
+  "input_range": [
+    -1.5587822198867798,
+    4.11386775970459
+  ],
+  "refined_norm_range": [
+    -4.87166166305542,
+    6.817716598510742
+  ],
+  "residual_range": [
+    -4.737524509429932,
+    4.735078811645508
+  ],
+  "residual_mean": -0.0003399799461476505,
+  "residual_std": 0.9451005458831787,
+  "sampling_method": "DDIM",
+  "num_steps": 50,
+  "ddim_eta": 0.0,
+  "normalizer_mean": 0.0,
+  "normalizer_std": 1.0,
+  "checkpoint": "checkpoints_v2_enhanced/checkpoint_epoch_100.pt",
+  "pred_path": "/home/yangz/data/hic_data/HiCARN/hicarn_predictions/chr20/predictions_norm.npy",
+  "refined_raw_range": [
+    0.0,
+    14761.2529296875
+  ]
+}

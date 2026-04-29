@@ -1,0 +1,36 @@
+{
+  "standard_metrics": {
+    "psnr_original": {
+      "mean": NaN,
+      "std": NaN
+    },
+    "psnr_refined": {
+      "mean": NaN,
+      "std": NaN
+    },
+    "ssim_original": {
+      "mean": 0.38903423306663804,
+      "std": 0.2457588325069092
+    },
+    "ssim_refined": {
+      "mean": 0.28767893071167844,
+      "std": 0.2461340326584527
+    },
+    "pcc_original": {
+      "mean": 0.6731343280026248,
+      "std": 0.228972963176596
+    },
+    "pcc_refined": {
+      "mean": 0.5167819241575581,
+      "std": 0.3015079353998298
+    },
+    "scc_original": {
+      "mean": 0.6563502897041568,
+      "std": 0.22792889801136001
+    },
+    "scc_refined": {
+      "mean": 0.5074985675688675,
+      "std": 0.28795378999642646
+    },
+    "mse_original": {
+      "mean": 
