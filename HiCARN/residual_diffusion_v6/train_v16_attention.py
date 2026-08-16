@@ -13,12 +13,6 @@ Adds ONLY:
   1. One self-attention block at the U-Net bottleneck
   2. One cross-attention block at the same bottleneck (Q=features, K/V=Y0)
 
-Does NOT add Laplacian pyramids, per-band diffusion, or LR Hi-C X.
-
-Ablations (BooleanOptionalAction):
-  --use_self_attention / --no_self_attention
-  --use_cross_attention / --no_cross_attention
-
 Optional warm-start:
   --init_from_v15 <v15_checkpoint.pt>
 ================================================================================
