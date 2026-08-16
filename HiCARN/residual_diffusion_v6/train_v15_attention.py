@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Diffusion Refinement v16 - v15 + bottleneck self/cross-attention
+Diffusion Refinement v15-ATT - v15 + bottleneck self/cross-attention
 
 ================================================================================
-v15 → v16 (MINIMAL change):
+v15 → v15-ATT (MINIMAL change):
 
 Preserves the entire v15 residual-diffusion pipeline:
   residual R = GT - Y0, v-prediction, concat(Y0) conditioning,
@@ -79,7 +79,7 @@ class ResBlock(nn.Module):
         return h + self.shortcut(x)
 
 
-# === v16: Bottleneck Self-Attention ===
+# === v15-ATT: Bottleneck Self-Attention ===
 class BottleneckSelfAttention(nn.Module):
     """Single self-attention block on [B, C, H, W] bottleneck features."""
 
@@ -106,7 +106,7 @@ class BottleneckSelfAttention(nn.Module):
         return x_tokens.transpose(1, 2).reshape(B, C, H, W)
 
 
-# === v16: Lightweight Y0 encoder for cross-attention ===
+# === v15-ATT: Lightweight Y0 encoder for cross-attention ===
 class LightweightConditionEncoder(nn.Module):
     """
     Maps backbone prediction Y0 [B, 1, 40, 40] to bottleneck
@@ -129,7 +129,7 @@ class LightweightConditionEncoder(nn.Module):
         return self.net(cond)
 
 
-# === v16: Backbone-conditioned Cross-Attention ===
+# === v15-ATT: Backbone-conditioned Cross-Attention ===
 class BottleneckCrossAttention(nn.Module):
     """Cross-attention: Q = diffusion bottleneck, K/V = encoded Y0."""
 
@@ -174,7 +174,7 @@ class GatedConditionedUNet(nn.Module):
         cond_norm_type='learnable',
         output_gate=True,
         g_scale=0.5,
-        # === v16 attention (defaults preserve v15 when both False) ===
+        # === v15-ATT attention (defaults preserve v15 when both False) ===
         use_self_attention=False,
         use_cross_attention=False,
         self_attn_heads=4,
@@ -233,7 +233,7 @@ class GatedConditionedUNet(nn.Module):
         self.mid2 = ResBlock(ch, ch, time_emb_dim)
         bottleneck_ch = ch
 
-        # === v16: Bottleneck Self-Attention ===
+        # === v15-ATT: Bottleneck Self-Attention ===
         if use_self_attention:
             self.bottleneck_self_attn = BottleneckSelfAttention(
                 bottleneck_ch, num_heads=self_attn_heads, init_scale=self_attn_init_scale
@@ -241,7 +241,7 @@ class GatedConditionedUNet(nn.Module):
         else:
             self.bottleneck_self_attn = None
 
-        # === v16: Backbone-conditioned Cross-Attention ===
+        # === v15-ATT: Backbone-conditioned Cross-Attention ===
         if use_cross_attention:
             self.cond_encoder = LightweightConditionEncoder(
                 out_channels=bottleneck_ch, num_downsamples=len(channel_mults)
@@ -304,11 +304,11 @@ class GatedConditionedUNet(nn.Module):
         h = self.mid1(h, t_emb)
         h = self.mid2(h, t_emb)
 
-        # === v16: Bottleneck Self-Attention ===
+        # === v15-ATT: Bottleneck Self-Attention ===
         if self.bottleneck_self_attn is not None:
             h = self.bottleneck_self_attn(h)
 
-        # === v16: Backbone-conditioned Cross-Attention ===
+        # === v15-ATT: Backbone-conditioned Cross-Attention ===
         if self.bottleneck_cross_attn is not None:
             cond_feat = self.cond_encoder(cond_norm)
             h = self.bottleneck_cross_attn(h, cond_feat)
@@ -1329,11 +1329,11 @@ def compute_condition_stats(hicarn):
 # ================================================================
 
 def build_checkpoint_config(args):
-    """Save architecture + v15 training hyperparameters for test_v16_attention.py."""
+    """Save architecture + v15 training hyperparameters for test_v15_attention.py."""
     cfg = dict(vars(args))
     cfg.update({
-        'model_version': 'v16_attention',
-        'experiment_name': getattr(args, 'experiment_name', 'v16_attention'),
+        'model_version': 'v15_attention',
+        'experiment_name': getattr(args, 'experiment_name', 'v15_attention'),
         'seed': int(getattr(args, 'seed', 0)),
         'use_self_attention': bool(args.use_self_attention),
         'use_cross_attention': bool(args.use_cross_attention),
@@ -1371,7 +1371,7 @@ def main():
                        help='NPZ file containing distance and location info')
     parser.add_argument('--val_hicarn', type=str, default=None)
     parser.add_argument('--val_gt', type=str, default=None)
-    parser.add_argument('--output_dir', type=str, default='checkpoints_v16_attention')
+    parser.add_argument('--output_dir', type=str, default='checkpoints_v15_attention')
     
     # Training basics
     parser.add_argument('--epochs', type=int, default=100)
@@ -1386,7 +1386,7 @@ def main():
     parser.add_argument('--use_gate', action='store_true', default=True)
     parser.add_argument('--g_scale', type=float, default=0.5)
 
-    # === v16 attention flags (explicit enable/disable; default ON) ===
+    # === v15 attention flags (explicit enable/disable; default ON) ===
     parser.add_argument('--use_self_attention', dest='use_self_attention', action='store_true',
                         help='Enable bottleneck self-attention (default).')
     parser.add_argument('--no_self_attention', dest='use_self_attention', action='store_false',
@@ -1469,7 +1469,7 @@ def main():
     )
     parser.add_argument('--seed', type=int, default=0,
                        help='Global seed for the attention ablation (same seed across A0-A3).')
-    parser.add_argument('--experiment_name', type=str, default='v16_attention')
+    parser.add_argument('--experiment_name', type=str, default='v15_attention')
     
     args = parser.parse_args()
     set_global_seed(args.seed)
@@ -1485,9 +1485,9 @@ def main():
     # Print configuration
     # ================================================================
     print("\n" + "="*80)
-    print("DIFFUSION REFINEMENT v16 (v15 + bottleneck attention)")
+    print("DIFFUSION REFINEMENT v15-ATT (v15 + bottleneck attention)")
     print("="*80)
-    print(f"\nv15 pipeline preserved. v16 additions:")
+    print(f"\nv15 pipeline preserved. v15 additions:")
     print(f"  Self-attention:  {args.use_self_attention} (heads={args.self_attn_heads}, scale={args.self_attn_init_scale})")
     print(f"  Cross-attention: {args.use_cross_attention} (heads={args.cross_attn_heads}, scale={args.cross_attn_init_scale})")
     print(f"  Concat Y0 conditioning, gate, alpha, and all v15 losses are unchanged.")
