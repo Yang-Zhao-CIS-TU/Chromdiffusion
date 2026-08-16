@@ -3,18 +3,6 @@
 Test/Inference Script for Diffusion Refinement v16 (v15 + bottleneck attention)
 
 Architecture is imported from train_v16_attention.py so train/test stay identical.
-Attention flags are read from the checkpoint config unless overridden.
-
-Usage:
-    python test_v16_attention.py \
-        --checkpoint checkpoints_v16_attention/best_model_iou.pt \
-        --preprocess_file /home/yangz/data/hic_data/HiCARN/hicarn_predictions/preprocessor.pt \
-        --chromosomes chr18 chr19 chr20 chr21 chr22 \
-        --hicarn_dir /home/yangz/data/hic_data/HiCARN/hicarn_predictions \
-        --gt_dir /data/251021_HiC_Diffusion/NEW_mat_TK/GM12878/40x40 \
-        --output_dir test_results_v16_attention \
-        --num_steps 20 \
-        --device cuda
 """
 
 import os
