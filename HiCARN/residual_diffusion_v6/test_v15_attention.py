@@ -1,20 +1,8 @@
 #!/usr/bin/env python3
 """
-Test/Inference Script for Diffusion Refinement v16 (v15 + bottleneck attention)
+Test/Inference Script for Diffusion Refinement v15_ATT (v15 + bottleneck attention)
 
-Architecture is imported from train_v16_attention.py so train/test stay identical.
-Attention flags are read from the checkpoint config unless overridden.
-
-Usage:
-    python test_v16_attention.py \
-        --checkpoint checkpoints_v16_attention/best_model_iou.pt \
-        --preprocess_file /home/yangz/data/hic_data/HiCARN/hicarn_predictions/preprocessor.pt \
-        --chromosomes chr18 chr19 chr20 chr21 chr22 \
-        --hicarn_dir /home/yangz/data/hic_data/HiCARN/hicarn_predictions \
-        --gt_dir /data/251021_HiC_Diffusion/NEW_mat_TK/GM12878/40x40 \
-        --output_dir test_results_v16_attention \
-        --num_steps 20 \
-        --device cuda
+Architecture is imported from train_v15_attention.py so train/test stay identical.
 """
 
 import os
@@ -32,12 +20,12 @@ from math import exp
 
 
 # ================================================================
-# Model / scheduler: identical to train_v16_attention.py
+# Model / scheduler: identical to train_v15_attention.py
 # ================================================================
 
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from train_v16_attention import GatedConditionedUNet, DDPMScheduler
+from train_v15_attention import GatedConditionedUNet, DDPMScheduler
 
 
 # ================================================================
