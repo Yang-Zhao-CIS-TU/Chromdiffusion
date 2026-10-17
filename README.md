@@ -43,6 +43,7 @@ Chromdiffusion/
 ├── HiCNN/          # HiCNN backbone and ChromDiffusion scripts
 ├── deephic/        # DeepHiC backbone and ChromDiffusion scripts
 ├── srhic/          # SRHiC backbone and ChromDiffusion scripts
+├── preprocessing/  # GEO download to 40 × 40 model input tiles
 ├── benchmark/      # TAD and loop benchmarking pipeline
 ├── Figures/        # Figures used in this README
 └── CITATION.cff    # Citation metadata
@@ -70,7 +71,7 @@ git clone https://github.com/shilab/Chromdiffusion.git
 cd Chromdiffusion
 ```
 
-The training and inference entry points are listed under Scripts Used in the Manuscript. A consolidated, verified quick-start workflow, including data preparation, will be added in a future documentation update.
+Data preparation is described in `preprocessing/README.md` and structural benchmarking in `benchmark/README.md`. The training and inference entry points are listed under Scripts Used in the Manuscript. A consolidated, verified quick-start workflow will be added in a future documentation update.
 
 ## Citation
 
