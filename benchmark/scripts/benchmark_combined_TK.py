@@ -163,10 +163,9 @@ def calculate_loop_metrics(pred_loops: pd.DataFrame,
     denominator = tp + 0.5 * (fp + fn)
     f1 = tp / denominator if denominator > 0 else 0.0
 
-    # Calculate Jaccard Index (TK formula: pred-centric intersection)
-    intersection = tp
-    union = len(pred_loops) + len(hr_loops) - intersection
-    jaccard = intersection / union if union > 0 else 0.0
+    # Calculate Jaccard Index: TP / (TP + FP + FN), the same counts as F1
+    union = tp + fp + fn
+    jaccard = tp / union if union > 0 else 0.0
 
     return {
         'pred_count': len(pred_loops),

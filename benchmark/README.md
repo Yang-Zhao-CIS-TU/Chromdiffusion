@@ -103,14 +103,16 @@ Output is a tab-separated table with one row per (Type ∈ {Loop, TAD}, chromoso
 by ±5 kb (`--tolerance`), and a predicted loop is a true positive (TP) when its padded
 anchors overlap those of a reference loop on both axes. FP counts predicted loops with
 no match and FN counts reference loops with no match.
-F1 = 2TP / (2TP + FP + FN) and Jaccard = TP / (pred_count + hr_count − TP).
+F1 = 2TP / (2TP + FP + FN) and Jaccard = TP / (TP + FP + FN).
 
 *TADs.* A predicted domain is a TP if it overlaps any reference domain, so TP can exceed
 the reference count. F1 uses the same formula as for loops. Jaccard is the bedtools
 interval Jaccard (base-pair overlap) between predicted and reference domains.
 
 Table 1 of the manuscript sums TP and FP over chr18–22 and averages F1 and Jaccard
-over the five chromosomes; Tables 2–3 show the per-chromosome values.
+over the five chromosomes; Tables 2–3 show the per-chromosome values. Supplementary
+Table S1 instead sums TP, FP and FN over the five chromosomes and computes F1 and
+Jaccard from those totals.
 
 Reference calls are made on the full HR map, while a reconstructed map contains only
 tiles within 2 Mb of the diagonal that pass the nonzero filter. Features outside that
