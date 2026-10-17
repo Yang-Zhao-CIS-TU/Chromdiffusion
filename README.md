@@ -11,10 +11,17 @@ ChromDiffusion is a diffusion-based framework for refining predicted high-resolu
 
 Hi-C experiments measure spatial contacts between genomic loci, but generating high-resolution contact maps can be costly and data-intensive. ChromDiffusion builds on an existing super-resolution backbone and applies a diffusion-based refinement stage to its predicted contact maps.
 
+<p align="center">
+  <img src="Figures/chromdiff-fig-update.png" alt="ChromDiffusion Framework" width="850">
+</p>
+
+<p align="center">
+  <em>Overview of the ChromDiffusion framework.</em>
+</p>
 The repository includes implementations and related resources for several Hi-C reconstruction backbones:
 
-- **HiCARN**
-- **HiCNN**
+- **HiCARN**  (`HICARN/`)
+- **HiCNN**  (`HICNN/`)
 - **DeepHiC** (`deephic/`)
 - **SRHiC** (`srhic/`)
 
