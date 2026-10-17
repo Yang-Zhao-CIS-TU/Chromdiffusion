@@ -18,10 +18,11 @@ Hi-C experiments measure spatial contacts between genomic loci, but generating h
 <p align="center">
   <em>Overview of the ChromDiffusion framework.</em>
 </p>
+
 The repository includes implementations and related resources for several Hi-C reconstruction backbones:
 
-- **HiCARN**  (`HICARN/`)
-- **HiCNN**  (`HICNN/`)
+- **HiCARN** (`HiCARN/`)
+- **HiCNN** (`HiCNN/`)
 - **DeepHiC** (`deephic/`)
 - **SRHiC** (`srhic/`)
 
@@ -34,20 +35,31 @@ ChromDiffusion is intended to complement these backbones rather than replace the
 3. Apply diffusion-based refinement to the backbone prediction.
 4. Evaluate reconstructed contact maps against reference data.
 
-<!-- Add the framework figure after it is finalized, for example:
-![ChromDiffusion framework](assets/chromdiffusion_framework.png)
--->
-
 ## Repository Structure
 
 ```text
 Chromdiffusion/
-├── HiCARN/       # HiCARN-related code
-├── HiCNN/        # HiCNN-related code
-├── deephic/      # DeepHiC-related code
-├── srhic/        # SRHiC-related code
-└── benchmark/    # Benchmarking resources
+├── HiCARN/         # HiCARN backbone; ChromDiffusion scripts in residual_diffusion_v6/
+├── HiCNN/          # HiCNN backbone and ChromDiffusion scripts
+├── deephic/        # DeepHiC backbone and ChromDiffusion scripts
+├── srhic/          # SRHiC backbone and ChromDiffusion scripts
+├── benchmark/      # TAD and loop benchmarking pipeline
+├── Figures/        # Figures used in this README
+└── CITATION.cff    # Citation metadata
 ```
+
+## Scripts Used in the Manuscript
+
+The ChromDiffusion model is trained with `train_v15.py`, and `test_v15.py` runs inference and computes the evaluation metrics. For HiCARN these scripts are in `HiCARN/residual_diffusion_v6/`. For the other backbones they are at the top level of `HiCNN/`, `deephic/` and `srhic/`. The training script is identical in all four folders; its `--train_hicarn` and `--val_hicarn` arguments take the predictions of whichever backbone is being refined.
+
+The results in the manuscript are labelled as follows:
+
+- **HiCARN, Run A/B/C**: three checkpoints from training on HiCARN outputs. The manuscript gives the selection criteria for each.
+- **Struct-Diff** (HiCNN, DeepHiC, SRHiC): the model trained on that backbone's own outputs.
+- **Cross-Diff** (HiCNN, DeepHiC, SRHiC): the model trained on HiCARN outputs, applied without retraining to that backbone's predictions.
+- **Vanilla-Diff** (HiCNN, DeepHiC, SRHiC): diffusion refinement without structural constraints, from `train_residual_diffusion.py` and `test_residual_diffusion.py` in `HiCNN/`, `deephic/` and `srhic/`.
+
+The other `residual_diffusion*` folders under `HiCARN/` hold earlier versions of the model from development.
 
 ## Getting Started
 
@@ -58,14 +70,15 @@ git clone https://github.com/shilab/Chromdiffusion.git
 cd Chromdiffusion
 ```
 
-The backbone directories contain model-specific implementations. Please refer to their scripts and configuration files for data preparation, training, and inference. A consolidated, verified quick-start workflow will be added in a future documentation update.
-
+The training and inference entry points are listed under Scripts Used in the Manuscript. A consolidated, verified quick-start workflow, including data preparation, will be added in a future documentation update.
 
 ## Citation
 
 If you use this repository, please cite the accompanying manuscript once its bibliographic details are available:
 
 > Yang Zhao, Tomoya Kanno, Chong Li, and Xinghua Shi. *ChromDiffusion: Refining Chromatin Structure Characterization Through Diffusion Models*. Manuscript under review.
+
+Citation metadata is also provided in `CITATION.cff`, which GitHub shows under "Cite this repository".
 
 ## Status
 
