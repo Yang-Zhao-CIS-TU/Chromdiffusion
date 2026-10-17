@@ -6,3 +6,5 @@ dependencies:
   - pandas=2.3
   - bedtools=2.31
   - openjdk=11
+  - scipy=1.13
+  - scikit-image=0.24

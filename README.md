@@ -19,12 +19,12 @@ Hi-C experiments measure spatial contacts between genomic loci, but generating h
   <em>Overview of the ChromDiffusion framework.</em>
 </p>
 
-The repository includes implementations and related resources for several Hi-C reconstruction backbones:
+The repository includes implementations and related resources for several Hi-C reconstruction backbones. Please cite the original paper when using a backbone:
 
-- **HiCARN** (`HiCARN/`)
-- **HiCNN** (`HiCNN/`)
-- **DeepHiC** (`deephic/`)
-- **SRHiC** (`srhic/`)
+- **HiCARN** (`HiCARN/`): Hicks and Oluwadare, *Bioinformatics* 2022. https://doi.org/10.1093/bioinformatics/btac156
+- **HiCNN** (`HiCNN/`): Liu and Wang, *Bioinformatics* 2019. https://doi.org/10.1093/bioinformatics/btz251
+- **DeepHiC** (`deephic/`): Hong et al., *PLOS Computational Biology* 2020. https://doi.org/10.1371/journal.pcbi.1007287
+- **SRHiC** (`srhic/`): Li and Dai, *Frontiers in Genetics* 2020. https://doi.org/10.3389/fgene.2020.00353
 
 ChromDiffusion is intended to complement these backbones rather than replace them.
 
@@ -44,7 +44,7 @@ Chromdiffusion/
 ├── deephic/        # DeepHiC backbone and ChromDiffusion scripts
 ├── srhic/          # SRHiC backbone and ChromDiffusion scripts
 ├── preprocessing/  # GEO download to 40 × 40 model input tiles
-├── benchmark/      # TAD and loop benchmarking pipeline
+├── benchmark/      # TAD and loop benchmark, plus supplementary evaluations
 ├── Figures/        # Figures used in this README
 └── CITATION.cff    # Citation metadata
 ```
@@ -71,7 +71,7 @@ git clone https://github.com/shilab/Chromdiffusion.git
 cd Chromdiffusion
 ```
 
-Data preparation is described in `preprocessing/README.md` and structural benchmarking in `benchmark/README.md`. The training and inference entry points are listed under Scripts Used in the Manuscript. A consolidated, verified quick-start workflow will be added in a future documentation update.
+Data preparation is described in `preprocessing/README.md` and benchmarking in `benchmark/README.md`. The training and inference entry points are listed under Scripts Used in the Manuscript. A consolidated, verified quick-start workflow will be added in a future documentation update.
 
 ## Citation
 

@@ -1,12 +1,11 @@
-# Structural benchmarking pipeline (TAD and loop recovery)
+# Benchmarking: TAD and loop recovery, plus supplementary analyses
 
 Scripts used to produce the loop and TAD detection results in the ChromDiffusion
 manuscript (Tables 1–3 and Supplementary Table S1). The pipeline converts
 model prediction tiles back into Juicer-compatible contact matrices, calls TADs
 (Arrowhead) and loops (HiCCUPS) on the reconstructed maps, and scores the calls
-against calls made on the high-resolution reference map. The loop recovery and
-enrichment analysis in Supplementary Tables S6–S7 was computed separately and is
-not part of these scripts.
+against calls made on the high-resolution reference map. Two further scripts
+produce Supplementary Tables S5–S7 (see Supplementary analyses).
 
 ```
                  HR / LR .hic                     prediction tiles (.npz / .npy)
@@ -24,7 +23,8 @@ not part of these scripts.
 
 ## Requirements
 
-* Python 3.9 with `numpy` and `pandas` (create the environment from `environment.yml`)
+* Python 3.9 with `numpy` and `pandas`, plus `scipy` and `scikit-image` for the supplementary
+  analyses (create the environment from `environment.yml`)
 * Java 11 and **juicer_tools 1.22.01** (`juicer_tools_1.22.01.jar`) — set `JUICER_JAR=/path/to/jar`
   or pass `--jar`; the default points at the lab server copy
 * `bedtools` ≥ 2.31 (TAD Jaccard)
@@ -123,6 +123,44 @@ coverage count as false negatives for every method.
 `examples/run_example.sh` runs stages 0–3 for one prediction directory. Edit the paths
 at the top of the script before running it.
 
+## Supplementary analyses
+
+### Pixel fidelity (Supplementary Table S5)
+
+```bash
+python scripts/fidelity_psnr_ssim.py --gt-dir <cell_test_dir>/tensors/data/GM12878/40x40 \
+    --pred-root <cell_test_dir>/tensors/predictions --nproc 8
+```
+
+Compares each condition's prediction tiles (`<pred-root>/<condition>/chr{N}.npy`) with the
+HR test tiles from `../preprocessing`. PSNR and SSIM are computed per tile in log1p space
+with a single data range, log1p of the largest HR count over chr18–22; SSIM uses an
+11 × 11 Gaussian window (σ = 1.5). Scale-matched PSNR first rescales each predicted tile
+to the total counts of its HR tile. Per-tile values are averaged within each chromosome
+and reported as mean ± SD over the five chromosomes. The script also flags predictions
+whose values pile up at one maximum value (clipped exports).
+
+The condition folders and their manuscript labels are listed in `CONDITIONS` at the top
+of the script, and `EXPECTED_TILES` holds our GM12878 test tile counts; edit both for
+other runs. Outputs: `fidelity_psnr_ssim.csv` (per chromosome), `fidelity_summary.csv`
+(per condition) and `fidelity_meta.json`.
+
+### Loop recovery and enrichment (Supplementary Tables S6–S7)
+
+```bash
+python scripts/loop_recovery_enrichment.py --gt-dir <cell_test_dir>/tensors/predictions/ground_truth
+```
+
+Uses the HR and LR HiCCUPS calls from stage 0. An HR loop counts as recovered when an LR
+loop has both anchor centres within 5 kb (`--tolerance`) of the HR loop's anchor centres;
+at 10 kb resolution this means the same anchor bins, a stricter rule than the stage 3
+matching, which pads both loops' anchors by ±5 kb. Enrichment is the HiCCUPS donut
+enrichment (observed / expectedDonut) of each HR loop. Outputs:
+`loop_recovery_by_chrom.csv` (Supplementary Table S6) and `loop_recovery_summary.json`
+(percentiles for Supplementary Table S7, and a one-sided Mann–Whitney U test).
+
+Rerunning both scripts on our data reproduces Supplementary Tables S5–S7.
+
 ## Provenance
 
 `_TK` scripts were written by Tomoya Kanno (2025–2026). The three combined scripts
@@ -131,3 +169,5 @@ supersede the single-purpose scripts named in their headers
 `hiccups_loop.sh`, `fanc_boundary.sh`, `Loop_jaccard_F1_TK.py`, `TAD_jaccard_F1_TK.py`,
 `Loop_validate.py`). `--ratio` accepts a string so fractional depth-matching ratios
 (e.g. `7.5`) can be used as filename tags; integer values behave exactly as before.
+`fidelity_psnr_ssim.py` and `loop_recovery_enrichment.py` were added for the supplementary
+analyses of the revised manuscript.
