@@ -30,10 +30,10 @@ ChromDiffusion is intended to complement these backbones rather than replace the
 
 ## Framework
 
-1. Prepare paired low- and high-resolution Hi-C contact-map patches.
-2. Generate an initial high-resolution prediction using a backbone model.
-3. Apply diffusion-based refinement to the backbone prediction.
-4. Evaluate reconstructed contact maps against reference data.
+1. Prepare paired low- and high-resolution Hi-C contact-map patches (`preprocessing/`).
+2. Generate an initial high-resolution prediction using a backbone model (the backbone folders).
+3. Apply diffusion-based refinement to the backbone prediction (see Scripts Used in the Manuscript).
+4. Evaluate reconstructed contact maps against reference data (`benchmark/`).
 
 ## Repository Structure
 
