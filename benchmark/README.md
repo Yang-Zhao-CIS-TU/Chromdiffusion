@@ -1,10 +1,12 @@
 # Structural benchmarking pipeline (TAD and loop recovery)
 
 Scripts used to produce the loop and TAD detection results in the ChromDiffusion
-manuscript (Tables 1–3, Supplementary Tables S1–S2, S6–S7). The pipeline converts
+manuscript (Tables 1–3 and Supplementary Table S1). The pipeline converts
 model prediction tiles back into Juicer-compatible contact matrices, calls TADs
 (Arrowhead) and loops (HiCCUPS) on the reconstructed maps, and scores the calls
-against calls made on the high-resolution reference map.
+against calls made on the high-resolution reference map. The loop recovery and
+enrichment analysis in Supplementary Tables S6–S7 was computed separately and is
+not part of these scripts.
 
 ```
                  HR / LR .hic                     prediction tiles (.npz / .npy)
@@ -22,7 +24,7 @@ against calls made on the high-resolution reference map.
 
 ## Requirements
 
-* Python 3.9 with `numpy` and `pandas` (see `environment.yml`; the lab environment is `truhic`)
+* Python 3.9 with `numpy` and `pandas` (create the environment from `environment.yml`)
 * Java 11 and **juicer_tools 1.22.01** (`juicer_tools_1.22.01.jar`) — set `JUICER_JAR=/path/to/jar`
   or pass `--jar`; the default points at the lab server copy
 * `bedtools` ≥ 2.31 (TAD Jaccard)
@@ -30,22 +32,29 @@ against calls made on the high-resolution reference map.
   `export PATH=/usr/local/cuda-11.7/bin:$PATH LD_LIBRARY_PATH=/usr/local/cuda-11.7/lib64`
 * Optional: FAN-C (`--mode fanc` insulation boundaries; not used in the manuscript)
 
-## Conventions (all stages)
+## Conventions
 
 | Parameter | Default | Flag |
 |---|---|---|
-| Resolution | 10 kb | `--resolution` |
-| Test chromosomes | chr18–22 | `--chroms` |
-| Downsampling ratio (filename tag) | 16 | `--ratio` |
+| Resolution | 10 kb | `--resolution` (stages 1 and 2) |
+| Test chromosomes | chr18–22 | `--chroms`: stages 1 and 3 take `chr18 chr19 …`; stage 2 takes one quoted string of numbers, e.g. `"18 19"` |
+| Downsampling ratio (filename tag) | 16 | `--ratio` (stages 1–3) |
 | Tile size | 40 × 40 bins | `--chunk-size` (stage 1) |
 | Max diagonal distance kept | 200 bins (2 Mb) | `--thresh-bins` (stage 1) |
+| Minimum nonzero fraction of an LR tile | 0.05 | `--min-nonzero-frac` (stage 1) |
+| Genome for `.hic` conversion | hg19 | `--genome` (stage 2) |
 | Normalisation for calling | KR | `--norm` (stage 2) |
 | HiCCUPS FDR | HiCCUPS default (0.10); `--fdr` tags the output folder when set explicitly | `--fdr` (stages 2 and 3) |
-| Loop match tolerance | ±5 kb on both anchors | `--tolerance` (stage 3) |
+| Loop anchor padding | ±5 kb | `--tolerance` (stage 3) |
+
+Stage 0 takes positional arguments only and always uses chr18–22, 10 kb and KR.
+Tile size, maximum distance and nonzero threshold in stage 1 must match the values
+used to build the model's input tensors, so that each prediction tile is placed
+where its input tile came from.
 
 Prediction files are expected as `preds_lr_test_chr{N}_ratio{R}.npy` (one per chromosome,
-tiles × 40 × 40 × 1) or the raw model output `hic_impute_chr{N}_pred_real.npz`. The example
-driver shows the symlink step used when model outputs are named `chr{N}.npy`.
+tiles × 40 × 40 × 1) or the raw model output `hic_impute_chr{N}_pred_real.npz`. If your model writes
+`chr{N}.npy`, link or rename the files to this pattern first.
 
 ## Stage 0 — reference calls
 
@@ -88,16 +97,29 @@ python scripts/benchmark_combined_TK.py --mode all --pred-dir <pred_dir> \
 
 Output is a tab-separated table with one row per (Type ∈ {Loop, TAD}, chromosome):
 `Type, Comparison, Chromosome, pred_count, hr_count, TP, FP, FN, F1, Jaccard`.
-Loops match when both anchors fall within ±5 kb of a reference loop. TAD Jaccard is the
-bedtools interval Jaccard between predicted and reference domains; TAD TP/FP count
-predicted domains that overlap a reference domain, so TP can exceed the reference count.
 `--include-lr` adds LR-vs-HR rows as the unrefined reference point.
+
+*Loops.* The anchor intervals of every predicted and every reference loop are padded
+by ±5 kb (`--tolerance`), and a predicted loop is a true positive (TP) when its padded
+anchors overlap those of a reference loop on both axes. FP counts predicted loops with
+no match and FN counts reference loops with no match.
+F1 = 2TP / (2TP + FP + FN) and Jaccard = TP / (pred_count + hr_count − TP).
+
+*TADs.* A predicted domain is a TP if it overlaps any reference domain, so TP can exceed
+the reference count. F1 uses the same formula as for loops. Jaccard is the bedtools
+interval Jaccard (base-pair overlap) between predicted and reference domains.
+
+Table 1 of the manuscript sums TP and FP over chr18–22 and averages F1 and Jaccard
+over the five chromosomes; Tables 2–3 show the per-chromosome values.
+
+Reference calls are made on the full HR map, while a reconstructed map contains only
+tiles within 2 Mb of the diagonal that pass the nonzero filter. Features outside that
+coverage count as false negatives for every method.
 
 ## Example
 
-`examples/run_CD40_pipeline.sh` is the driver that produced the HiCARN rows of Tables 1–3
-(stages 1–3 over five prediction batches with per-batch logs). Paths inside it are the lab
-server's; treat it as a template.
+`examples/run_example.sh` runs stages 0–3 for one prediction directory. Edit the paths
+at the top of the script before running it.
 
 ## Provenance
 

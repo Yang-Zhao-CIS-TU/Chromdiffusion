@@ -15,7 +15,7 @@ THREE BENCHMARKING MODULES:
 Usage:
     python benchmark_combined_TK.py --mode all \
         --pred-dir <predictions> --gt-dir <ground_truth> \
-        --chipseq-dir <chipseq_peaks> --output <results.csv>
+        --chipseq-dir <chipseq_peaks> --output <results.tsv>
 
 Author: Combined from Loop_jaccard_F1_TK.py, TAD_jaccard_F1_TK.py, Loop_validate.py
 ================================================================================
@@ -118,13 +118,9 @@ def loop_has_overlap(row: pd.Series, other_df: pd.DataFrame) -> bool:
     Check if a loop overlaps with any loop in another dataset.
 
     MATCHING LOGIC:
-    Two loops match if their expanded bounding boxes overlap in BOTH dimensions.
-    This is a 2D overlap check since loops are points in the contact matrix.
-
-    For loop at (x, y) and candidate at (x', y'):
-      Match if: |x - x'| <= tolerance AND |y - y'| <= tolerance
-
-    Implemented as bounding box intersection check.
+    Both loops have their anchor intervals padded by +/- tolerance
+    (see expand_loop_coords). Two loops match if the padded intervals
+    overlap on both the x anchor and the y anchor.
     """
     overlaps = other_df[
         (other_df['chr'] == row['chr']) &
@@ -637,7 +633,7 @@ def main():
                         default=["chr18", "chr19", "chr20", "chr21", "chr22"],
                         help="Chromosomes to process (default: chr18-22)")
     parser.add_argument("--tolerance", type=int, default=5000,
-                        help="Loop matching tolerance in bp (default: 5000)")
+                        help="Padding in bp added to each side of every loop anchor before overlap matching (default: 5000)")
     parser.add_argument("--ratio", type=str, default=16,
                         help="Downsample ratio for TAD file paths (default: 16)")
     parser.add_argument("--fdr", default=None,
@@ -646,8 +642,8 @@ def main():
                         help="Include LR baseline comparison")
 
     # Output
-    parser.add_argument("--output", default="benchmark_results.csv",
-                        help="Output CSV file (default: benchmark_results.csv)")
+    parser.add_argument("--output", default="benchmark_results.tsv",
+                        help="Output file, tab-separated (default: benchmark_results.tsv)")
 
     args = parser.parse_args()
 
