@@ -1,0 +1,44 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite both the software record and the accompanying article."
+type: software
+title: "ChromDiffusion: residual diffusion refinement of Hi-C contact maps"
+abstract: "Annotation-free residual diffusion refinement of frozen Hi-C super-resolution backbones (SRHiC, HiCNN, DeepHiC, HiCARN) for improved recovery of chromatin loops while preserving TAD structure."
+authors:
+  - family-names: Zhao
+    given-names: Yang
+    affiliation: "Department of Computer and Information Sciences, Temple University"
+  - family-names: Kanno
+    given-names: Tomoya
+    orcid: "https://orcid.org/0009-0003-3676-0992"
+    affiliation: "Department of Computer and Information Sciences and Institute for Genomics and Evolutionary Medicine, Temple University"
+  - family-names: Li
+    given-names: Chong
+    affiliation: "Department of Computer and Information Sciences and Institute for Genomics and Evolutionary Medicine, Temple University"
+  - family-names: Shi
+    given-names: Xinghua
+    affiliation: "Department of Computer and Information Sciences and Institute for Genomics and Evolutionary Medicine, Temple University"
+repository-code: "https://github.com/shilab/Chromdiffusion"
+keywords:
+  - Hi-C
+  - chromatin structure
+  - diffusion models
+  - super-resolution
+  - 3D genome
+  - computational genomics
+version: 1.0.0
+date-released: 2026-09-15
+preferred-citation:
+  type: article
+  title: "ChromDiffusion: Refining Chromatin Structure Characterization Through Diffusion Models"
+  authors:
+    - family-names: Zhao
+      given-names: Yang
+    - family-names: Kanno
+      given-names: Tomoya
+      orcid: "https://orcid.org/0009-0003-3676-0992"
+    - family-names: Li
+      given-names: Chong
+    - family-names: Shi
+      given-names: Xinghua
+  journal: "Briefings in Bioinformatics"
+  year: 2026
